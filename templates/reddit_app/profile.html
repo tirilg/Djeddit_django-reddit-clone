@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %} Profile {% endblock title %}
+
+<!-- Main page -->
+{% block content %}
+<h1>Profile</h1>
+<div>
+    <h2>Welcome, {{user.username}}.</h2>
+    <p>This is a history of your posts.</p>
+    <div>
+        <h3>Posts</h3>
+        {% if posts.count %}
+            {% for post in posts %}
+                <h3>{{post.title}}</h3>
+                <p>{{post.text}}</p>
+            {% endfor %}
+        {% else %}
+            <p>You do not have any posts yet.</p>
+        {% endif %}
+    </div>
+
+{% if error_message %} <p>{{error_message}}</p> {% endif %}
+{% endblock content %}

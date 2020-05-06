@@ -5,4 +5,5 @@ app_name = 'reddit_app'
 
 urlpatterns = [
     path("", views.index, name="index"), 
+    path("profile/", views.profile, name="profile"), 
 ]

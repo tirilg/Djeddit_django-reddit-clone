@@ -3,7 +3,9 @@
 {% block title %} Home {% endblock title %}
 
 {% block content %}
-<p>Welcome, {{user.username}}</p>
+{% if user.username %}
+    <p>Welcome, {{user.username}}</p>
+{% endif %}
 <h1>Reddit</h1>
 <div id="posts">
     {% if posts.count %}

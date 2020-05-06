@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # My apps 
     'personal',
     'reddit_app',
+    'user_app',
 
     # Django Apps
     'django.contrib.admin',

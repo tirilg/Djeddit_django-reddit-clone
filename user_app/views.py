@@ -47,4 +47,8 @@ def login(request):
     
     return render(request, "user_app/login.html", context)
 
+## Log out
+def logout(request):
+    dj_logout(request)
+    return HttpResponseRedirect(reverse('user_app:login'))
 
