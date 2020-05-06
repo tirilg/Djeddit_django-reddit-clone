@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %} Home {% endblock title %}
+
+{% block content %}
+<h1>Reddit</h1>
+<div id="posts">
+    {% if posts.count %}
+        {% for post in posts %}
+            <h3>{{post.author}}: {{post.title}}</h3>
+            <p>{{post.text}}</p>
+        {% endfor %}
+    {% else %}
+        <p>There are no posts</p>
+    {% endif %}
+
+</div>
+{% endblock content %}
