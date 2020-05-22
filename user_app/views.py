@@ -61,6 +61,24 @@ def logout(request):
     return HttpResponseRedirect(reverse('user_app:login'))
 
 ## delete 
+@login_required
 def delete(request):
-    request.user.delete()
-    return HttpResponseRedirect(reverse('reddit_app:index'))
+    if request.method == "POST":
+        if request.POST['confirm_deletion'] == "DELETE":
+            user = authenticate(request, username=request.user.username, password=request.POST['password'])
+            if user:
+                print(f"deleting user {user}")
+                user.delete()
+                return HttpResponseRedirect(reverse('reddit_app:index'))
+            else:
+                print("deletion failed")
+    return render(request, 'user_app/settings.html')
+
+@login_required
+def settings(request):
+    context = {}
+    user = request.user
+    context={"user": user}
+
+    return render(request, "user_app/settings.html", context)
+    

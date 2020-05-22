@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %} Settings {% endblock title %}
+
+<!-- Main page -->
+{% block content %}
+<h1>Settings</h1>
+
+<h3>Update password</h3>
+<form method="POST" action="">
+    {% csrf_token %}
+    <input type="password" name="old_password" placeholder="Old Password">
+    <input type="password" name="new_password" placeholder="New Password">
+    <input type="password" name="new_password_confirm" placeholder="Confirm New Password">
+    <button>Update password</button>
+</form>
+
+<h3>Delete user</h3>
+<form method="POST" action="{% url "user_app:delete" %}">
+    {% csrf_token %}
+    <input type="password" name="password" placeholder="confirm password">
+    <input type="text" name="confirm_deletion" placeholder="type DELETE">
+    <button>Delete user</button>
+</form>
+
+{% if error %}
+    <p>{{ error }}</p>
+{% endif %}
+{% endblock content %}
