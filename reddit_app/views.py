@@ -4,6 +4,17 @@ from . models import Post
 # Create your views here.
 
 def index(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        text = request.POST["text"]
+        post = Post()
+
+        post.title = title
+        post.text = text
+        post.author = request.user
+
+        post.save()
+        
     posts = Post.objects.all()
     context = {"posts": posts}
     

@@ -16,5 +16,7 @@
 </form>
 
 
-{% if error_message %} <p>{{error_message}}</p> {% endif %}
+{% if error %}
+    <p>{{ error }}</p>
+{% endif %}
 {% endblock content %}

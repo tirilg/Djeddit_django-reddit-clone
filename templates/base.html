@@ -12,18 +12,21 @@
                     <li>
                         <a href="{% url 'reddit_app:index' %}">Home</a>
                     </li>
-                    <li>
-                        <a href="{% url 'reddit_app:profile' %}">Profile</a>
-                    </li>
+                    {% if request.user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'reddit_app:profile' %}">Profile</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'user_app:logout' %}">Log out</a>
+                        </li>
+                    {% else %}
                     <li>
                         <a href="{% url 'user_app:login' %}">Log in</a>
                     </li>
                     <li>
                         <a href="{% url 'user_app:signup' %}">Sign up</a>
                     </li>
-                    <li>
-                        <a href="{% url 'user_app:logout' %}">Log out</a>
-                    </li>
+                    {% endif %}
                 </ul>
             </nav>
         </header>

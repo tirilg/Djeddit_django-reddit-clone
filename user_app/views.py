@@ -43,7 +43,7 @@ def login(request):
             return HttpResponseRedirect(reverse("reddit_app:index"))
         else: 
             #user login failed
-            context = {"error_message": "Invalid username or password combination"}
+            context = {"error": "Invalid username or password combination"}
     
     return render(request, "user_app/login.html", context)
 

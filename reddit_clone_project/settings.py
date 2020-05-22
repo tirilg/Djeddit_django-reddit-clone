@@ -36,6 +36,9 @@ INSTALLED_APPS = [
     'reddit_app',
     'user_app',
 
+    # 3rd party apps
+    'rest_framework',
+
     # Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
