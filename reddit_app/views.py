@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from . models import Post, Comment
+from . models import Post, Comment, Vote
 
 # Create your views here.
 
@@ -47,3 +47,11 @@ def update_post(request):
 
 def delete_post(request):
     pass
+
+def upvote(request, post_id):
+    user = request.user
+    post = Post.objects.get(id=post_id)
+    post.votes = post.votes + 1
+    post.save()
+    Vote.objects.create(post=post, user=user)
+    return redirect("reddit_app:single_post", post_id=post_id)

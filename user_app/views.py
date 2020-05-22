@@ -1,5 +1,5 @@
-from django.shortcuts import render, reverse, get_object_or_404
-from django.contrib.auth import authenticate, update_session_auth_hash, login as dj_login, logout as dj_logout
+from django.shortcuts import render, reverse, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login as dj_login, logout as dj_logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -8,6 +8,10 @@ from reddit_app.models import Post
 ### Sign up 
 def signup(request):
     context = {}
+
+    # Redirect the user if they are already logged in
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('reddit_app:index'))
 
     if request.method == "POST":
         username = request.POST['user']
@@ -33,6 +37,10 @@ def signup(request):
 def login(request):
     context = {}
 
+    # Redirect the user if they are already logged in
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('reddit_app:index'))
+
     #login request
     if request.method == "POST":
         user = authenticate(request, username=request.POST["username"], password= request.POST["password"])
@@ -52,3 +60,7 @@ def logout(request):
     dj_logout(request)
     return HttpResponseRedirect(reverse('user_app:login'))
 
+## delete 
+def delete(request):
+    request.user.delete()
+    return HttpResponseRedirect(reverse('reddit_app:index'))

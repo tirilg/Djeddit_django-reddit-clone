@@ -6,6 +6,9 @@
     <h2>{{post.title}}</h2>
     <span>Posted by: {{post.author}}</span>
     <p>{{post.text}}</p>
+    <a href="{% url "reddit_app:upvote" post.id %}">Vote up</a>
+    <p>{{post.votes}}</p>
+    <a href="">Vote down</a>
 </div>
 
 <div id="comments">
@@ -18,13 +21,16 @@
         <p>Be the first to comment!</p>
     {% endif %}
 </div>
-
-<div id="comment-form">
-    <form method="POST" action="{% url "reddit_app:comment" post.id %}">
-        {% csrf_token %}
-        <input type="text" name="text" placeholder="write your comment">
-        <button>Comment</button>
-    </form>
-</div>
+{% if request.user.is_authenticated %}
+    <div id="comment-form">
+        <form method="POST" action="{% url "reddit_app:comment" post.id %}">
+            {% csrf_token %}
+            <textarea name="text" placeholder="write your comment"></textarea>
+            <button>Comment</button>
+        </form>
+    </div>
+{% else %}
+    <p>Log in <a href="{% url "user_app:login" %}">here</a> to comment</p>
+{% endif %}
 
 {% endblock content %}

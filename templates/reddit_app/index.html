@@ -15,7 +15,7 @@
     <form method="POST">
         {% csrf_token %}
         <input type="text" name="title" placeholder="title">
-        <input type="text" name="text" placeholder="...">
+        <textarea name="text" placeholder="write your post"></textarea>
         <button>Create post</button>
     </form>
     {% if error %} <p>{{error}}</p> {% endif %}
