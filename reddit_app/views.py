@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from . models import Post
+from django.shortcuts import render, get_object_or_404
+from . models import Post, Comment
 
 # Create your views here.
 
@@ -26,6 +26,13 @@ def profile(request):
     context = {"posts": posts, "user": user}
 
     return render(request, "reddit_app/profile.html", context)
+
+def single_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    comment = Comment()
+    comments = Comment.objects.filter(post=post)
+    context = {"post": post, "comments": comments}
+    return render(request, "reddit_app/single_post.html", context)
 
 def update_post(request):
     pass

@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block title %} {{post.title}} {% endblock title %}
+
+{% block content %}
+
+<div id="single-post">
+    <h2>{{post.title}}</h2>
+    <span>Posted by: {{post.author}}</span>
+    <p>{{post.text}}</p>
+</div>
+
+<div id="comments">
+    <h2>Comments</h2>
+    {% if comments.count %}
+        {% for comment in comments %}
+            <h3>{{comment.author}}: {{comment.text}}</h3>
+        {% endfor %}
+    {% else %}
+        <p>there are no comments</p>
+    {% endif %}
+</div>
+
+{% endblock content %}
