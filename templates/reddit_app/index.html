@@ -26,12 +26,15 @@
     <h2>Posts</h2>
     {% if posts.count %}
         {% for post in posts %}
-        <a href={% url 'reddit_app:single_post' post.id %}>
             <div class="post" style="border: 1px solid black; margin-bottom: 10px;">
-                <h3>{{post.author}}: {{post.title}}</h3>
-                <p>{{post.text}}</p>
+                <a href={% url 'reddit_app:single_post' post.id %}>
+                    <h3>{{post.author}}: {{post.title}}</h3>
+                    <p>{{post.text}}</p>
+                </a>
+                <a href="{% url "reddit_app:upvote" post.id %}">&uarr;</a>
+                <p>{{post.votes}}</p>
+                <a href="{% url "reddit_app:downvote" post.id %}">&darr;</a>
             </div>
-        </a>
         {% endfor %}
     {% else %}
         <p>There are no posts</p>

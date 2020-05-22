@@ -6,9 +6,9 @@
     <h2>{{post.title}}</h2>
     <span>Posted by: {{post.author}}</span>
     <p>{{post.text}}</p>
-    <a href="{% url "reddit_app:upvote" post.id %}">Vote up</a>
+    <a href="{% url "reddit_app:upvote" post.id %}">&uarr;</a>
     <p>{{post.votes}}</p>
-    <a href="">Vote down</a>
+    <a href="{% url "reddit_app:downvote" post.id %}">&darr;</a>
 </div>
 
 <div id="comments">

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect, reverse
 from . models import Post, Comment, Vote
 
 # Create your views here.
@@ -54,4 +54,18 @@ def upvote(request, post_id):
     post.votes = post.votes + 1
     post.save()
     Vote.objects.create(post=post, user=user)
-    return redirect("reddit_app:single_post", post_id=post_id)
+
+    if request.META['HTTP_REFERER'].split('/')[-2] == 'post':
+        return redirect("reddit_app:single_post", post_id=post_id)
+    return HttpResponseRedirect(reverse('reddit_app:index'))
+
+def downvote(request, post_id):
+    user = request.user
+    post = Post.objects.get(id=post_id)
+    post.votes = post.votes - 1
+    post.save()
+    Vote.objects.create(post=post, user=user)
+
+    if request.META['HTTP_REFERER'].split('/')[-2] == 'post':
+        return redirect("reddit_app:single_post", post_id=post_id)
+    return HttpResponseRedirect(reverse('reddit_app:index'))
