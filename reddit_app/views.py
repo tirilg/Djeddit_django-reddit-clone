@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from . models import Post, Comment
 
 # Create your views here.
@@ -33,6 +33,14 @@ def single_post(request, post_id):
     comments = Comment.objects.filter(post=post)
     context = {"post": post, "comments": comments}
     return render(request, "reddit_app/single_post.html", context)
+
+def comment(request, post_id):
+    if request.method == "POST":
+        text = request.POST["text"]
+        author = request.user
+
+        Comment.objects.create(text=text, author=author, post_id=post_id)
+        return redirect("reddit_app:single_post", post_id=post_id)
 
 def update_post(request):
     pass
