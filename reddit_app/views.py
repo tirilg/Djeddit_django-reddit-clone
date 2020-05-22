@@ -14,7 +14,7 @@ def index(request):
         post.author = request.user
 
         post.save()
-        
+
     posts = Post.objects.all()
     context = {"posts": posts}
     
@@ -26,3 +26,9 @@ def profile(request):
     context = {"posts": posts, "user": user}
 
     return render(request, "reddit_app/profile.html", context)
+
+def update_post(request):
+    pass
+
+def delete_post(request):
+    pass

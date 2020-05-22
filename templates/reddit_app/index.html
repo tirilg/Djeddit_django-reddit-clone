@@ -6,7 +6,7 @@
 {% if user.username %}
     <p>Welcome, {{user.username}}</p>
 {% endif %}
-<h1>Reddit</h1>
+<h1>Djeddit</h1>
 
 <div>
     <h2>Create a new post</h2>
@@ -16,17 +16,24 @@
         <input type="text" name="text" placeholder="...">
         <button>Create post</button>
     </form>
+    {% if error %} <p>{{error}}</p> {% endif %}
 </div>
 <div id="posts">
     <h2>Posts</h2>
     {% if posts.count %}
         {% for post in posts %}
+        <div class="post" style="border: 1px solid black; margin-bottom: 10px;">
             <h3>{{post.author}}: {{post.title}}</h3>
             <p>{{post.text}}</p>
+        </div>
         {% endfor %}
     {% else %}
         <p>There are no posts</p>
     {% endif %}
 
 </div>
+
+{% load static %}
+<script src="{% static "global/js/index.js" %}"></script>
+
 {% endblock content %}
