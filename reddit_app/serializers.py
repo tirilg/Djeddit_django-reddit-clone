@@ -1,7 +1,13 @@
 from rest_framework import serializers
-from .models import Vote
+from .models import Vote, Post
+
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('title', 'author', 'text', 'votes', 'created_at')
+        model = Post
 
 class VoteSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('vote', 'post_id', 'user_id')
+        fields = ('vote', 'post', 'user')
         model = Vote

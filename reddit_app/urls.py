@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .api import PostView, VoteView, PostDetail
 
 app_name = 'reddit_app'
 
@@ -10,4 +11,7 @@ urlpatterns = [
     path("post/<int:post_id>/comment", views.comment, name="comment"), 
     path("post/<int:post_id>/upvote", views.upvote, name="upvote"), 
     path("post/<int:post_id>/downvote", views.downvote, name="downvote"), 
+    path('posts/', PostView.as_view()),
+    path('posts/<int:pk>', PostDetail.as_view()),
+    path('votes/', VoteView.as_view()),
 ]

@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect, reverse
+from django.contrib.auth.decorators import login_required
 from . models import Post, Comment, Vote
 
 # Create your views here.
@@ -20,6 +21,7 @@ def index(request):
     
     return render(request, "reddit_app/index.html", context)
 
+@login_required
 def profile(request):
     user = request.user
     posts = Post.objects.filter(author=user)
@@ -34,6 +36,7 @@ def single_post(request, post_id):
     context = {"post": post, "comments": comments}
     return render(request, "reddit_app/single_post.html", context)
 
+@login_required
 def comment(request, post_id):
     if request.method == "POST":
         text = request.POST["text"]
@@ -42,12 +45,15 @@ def comment(request, post_id):
         Comment.objects.create(text=text, author=author, post_id=post_id)
         return redirect("reddit_app:single_post", post_id=post_id)
 
+@login_required
 def update_post(request):
     pass
 
+@login_required
 def delete_post(request):
     pass
 
+@login_required
 def upvote(request, post_id):
     user = request.user
     post = Post.objects.get(id=post_id)
@@ -59,6 +65,7 @@ def upvote(request, post_id):
         return redirect("reddit_app:single_post", post_id=post_id)
     return HttpResponseRedirect(reverse('reddit_app:index'))
 
+@login_required
 def downvote(request, post_id):
     user = request.user
     post = Post.objects.get(id=post_id)

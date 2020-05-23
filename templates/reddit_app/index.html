@@ -31,9 +31,11 @@
                     <h3>{{post.author}}: {{post.title}}</h3>
                     <p>{{post.text}}</p>
                 </a>
-                <a href="{% url "reddit_app:upvote" post.id %}">&uarr;</a>
+                {% comment %} <a class="upvote post-vote" data-postid="{{ post.id }}" href="{% url "reddit_app:upvote" post.id %}">&uarr;</a> {% endcomment %}
+                <p class="upvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&uarr;</p>
                 <p>{{post.votes}}</p>
-                <a href="{% url "reddit_app:downvote" post.id %}">&darr;</a>
+                <p class="downvote post-vote" data-postid="{{ post.id }}">&darr;</p>
+                {% comment %} <a class="downvote post-vote" href="{% url "reddit_app:downvote" post.id %}">&darr;</a> {% endcomment %}
             </div>
         {% endfor %}
     {% else %}

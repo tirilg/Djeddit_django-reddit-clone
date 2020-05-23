@@ -26,3 +26,6 @@ class Vote(models.Model):
     vote = models.BooleanField(null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.vote} - {self.user} - {self.post}"

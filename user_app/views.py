@@ -60,6 +60,14 @@ def logout(request):
     dj_logout(request)
     return HttpResponseRedirect(reverse('user_app:login'))
 
+@login_required
+def settings(request):
+    context = {}
+    user = request.user
+    context={"user": user}
+
+    return render(request, "user_app/settings.html", context)
+
 ## delete 
 @login_required
 def delete(request):
@@ -75,10 +83,8 @@ def delete(request):
     return render(request, 'user_app/settings.html')
 
 @login_required
-def settings(request):
-    context = {}
-    user = request.user
-    context={"user": user}
+def update_password(request):
+    if request.method == "POST":
+        user = authenticate(request, username=request.user.username, password=request.POST['old_password'])
 
-    return render(request, "user_app/settings.html", context)
     
