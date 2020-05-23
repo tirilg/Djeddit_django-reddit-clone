@@ -24,9 +24,9 @@ voteArrows.forEach(arrow => {
 
 
 function handleVote() {
-    const postId = this.dataset.postid;
-    const userId = this.dataset.userid;
-    const votes = this.dataset.votes;
+    const postId = Number(this.dataset.postid);
+    const userId = Number(this.dataset.userid);
+    const votes = Number(this.dataset.votes);
 
     let vote = null;
 
@@ -35,8 +35,8 @@ function handleVote() {
     } else {
         vote = false;
     }
-    sendVote(Number(postId), Number(userId), vote)
-    updateVotes(postId, votes)
+    sendVote(postId, userId, vote)
+    updateVotes(postId, vote, votes)
 }
 
 function getVotes() {
@@ -54,9 +54,7 @@ function getVotes() {
     })
 }
 
-function updateVotes(postId, votes) {
-    console.log(votes)
-
+function updateVotes(postId, vote, votes) {
     fetch("http://127.0.0.1:8000/reddit/posts/" + postId, {
         headers: {
           Accept: "application/json",
@@ -65,11 +63,13 @@ function updateVotes(postId, votes) {
         },
         credentials: "include",
         method: "PATCH",
-        body: JSON.stringify({ votes: Number(votes) + 1})
+        body: JSON.stringify({ votes: vote ? votes + 1 : votes - 1 })
       })
     .then(res => res.json())
     .then(data => {
-            console.log(data)
+        const voteCount = document.querySelector(`.post-${postId} .votes`)
+        const currentVotes = Number(voteCount.textContent)
+        voteCount.textContent = vote ? currentVotes + 1 : currentVotes - 1;
     })
 }
 
@@ -84,7 +84,10 @@ function sendVote(postId, userId, vote) {
         credentials: "include",
         body: JSON.stringify({ post: postId, user: userId, vote: vote })
       })
-    .then(res => console.log(res))
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+    })
     .catch(err => {
         console.log(err)
     })

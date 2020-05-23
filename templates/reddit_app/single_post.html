@@ -2,13 +2,16 @@
 
 {% block content %}
 
-<div id="single-post">
+<div class="post-{{post.id}}">
     <h2>{{post.title}}</h2>
     <span>Posted by: {{post.author}}</span>
     <p>{{post.text}}</p>
-    <a href="{% url "reddit_app:upvote" post.id %}">&uarr;</a>
+    <p class="upvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&uarr;</p>
+    <p class="votes">{{post.votes}}</p>
+    <p class="downvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&darr;</p>
+    {% comment %}    <a href="{% url "reddit_app:upvote" post.id %}">&uarr;</a>
     <p>{{post.votes}}</p>
-    <a href="{% url "reddit_app:downvote" post.id %}">&darr;</a>
+    <a href="{% url "reddit_app:downvote" post.id %}">&darr;</a> {% endcomment %}
 </div>
 
 <div id="comments">
@@ -33,4 +36,6 @@
     <p>Log in <a href="{% url "user_app:login" %}">here</a> to comment</p>
 {% endif %}
 
+{% load static %}
+<script src="{% static "global/js/index.js" %}"></script>
 {% endblock content %}
