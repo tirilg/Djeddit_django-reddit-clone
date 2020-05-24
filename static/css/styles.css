@@ -116,3 +116,21 @@ h2 {
 .comment {
     padding-bottom: 10px;
 }
+
+.settings {
+    padding: 20px 0px;
+}
+
+
+#comment-form {
+    width: 300px;
+}
+
+#comment-form form {
+    display: grid;
+    row-gap: 5px;
+}
+
+#comment-form form textarea {
+    font-size: 16px;
+}

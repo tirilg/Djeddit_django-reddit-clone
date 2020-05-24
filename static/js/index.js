@@ -31,15 +31,32 @@ function handleVote() {
     const votes = Number(this.dataset.votes);
 
     let vote = null;
+    let clicked = null;
 
     if (this.classList.contains("upvote")) {
         vote = true;
+        if (this.classList.contains("clicked")) {
+            this.classList.remove("clicked")
+            clicked = false;
+        } else {
+            this.classList.add("clicked")
+            clicked = true;
+        }
+        clicked = true;
     } else {
         vote = false;
+        if (this.classList.contains("clicked")) {
+            this.classList.remove("clicked")
+            clicked = false;
+        } else {
+            this.classList.add("clicked")
+            clicked = true;
+        }
+
     }
 
     sendVote(postId, userId, vote)
-    updateVotes(postId, vote, votes)
+    updateVotes(postId, vote, votes, clicked)
 }
 
 function getVotes() {
@@ -57,7 +74,8 @@ function getVotes() {
     })
 }
 
-function updateVotes(postId, vote, votes) {
+function updateVotes(postId, vote, votes, clicked) {
+    console.log(clicked)
     fetch("http://127.0.0.1:8000/reddit/posts/" + postId, {
         method: "PATCH",
         credentials: "include",

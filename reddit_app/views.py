@@ -50,8 +50,10 @@ def update_post(request):
     pass
 
 @login_required
-def delete_post(request):
-    pass
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.delete()
+    return HttpResponseRedirect(reverse('reddit_app:profile'))
 
 @login_required
 def upvote(request, post_id):

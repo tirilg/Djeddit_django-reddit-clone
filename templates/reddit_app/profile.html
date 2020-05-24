@@ -19,6 +19,7 @@
                         <span>Score: {{post.votes}}</span>
                         <p>{{post.text}}</p>
                     </a>
+                        <a href="{% url "reddit_app:delete_post" post.id %}"><button>Delete post</button></a>
                 </div>
             {% endfor %}
         {% else %}
