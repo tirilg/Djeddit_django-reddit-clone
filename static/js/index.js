@@ -14,13 +14,15 @@ function getCookie(name) {
     return cookieValue;
 }
 
-
+// Vote buttons
 const voteArrows = document.querySelectorAll(".post-vote");
-
 voteArrows.forEach(arrow => {
     arrow.addEventListener("click", handleVote)
 })
 
+// Create post button
+const createBtn = document.querySelector("#create-post");
+createBtn.addEventListener("click", createPost);
 
 
 function handleVote() {
@@ -35,56 +37,64 @@ function handleVote() {
     } else {
         vote = false;
     }
+
     sendVote(postId, userId, vote)
     updateVotes(postId, vote, votes)
 }
 
 function getVotes() {
     fetch("http://127.0.0.1:8000/reddit/votes", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCookie("csrftoken")
-        },
         credentials: "include",
+        headers: {
+            Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")
+        },
       })
     .then(res => res.json())
     .then(data => {
-            console.log(data)
+        console.log(data)
     })
 }
 
 function updateVotes(postId, vote, votes) {
     fetch("http://127.0.0.1:8000/reddit/posts/" + postId, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCookie("csrftoken")
-        },
-        credentials: "include",
         method: "PATCH",
+        credentials: "include",
+        headers: {
+            Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")
+        },
         body: JSON.stringify({ votes: vote ? votes + 1 : votes - 1 })
       })
-    .then(res => res.json())
+    .then(res => {
+        console.log(res)
+        if(res.ok) {
+            const voteCount = document.querySelector(`.post-${postId} .votes`)
+            const currentVotes = Number(voteCount.textContent)
+            voteCount.textContent = vote ? currentVotes + 1 : currentVotes - 1;
+        }
+    })
     .then(data => {
-        const voteCount = document.querySelector(`.post-${postId} .votes`)
-        const currentVotes = Number(voteCount.textContent)
-        voteCount.textContent = vote ? currentVotes + 1 : currentVotes - 1;
+        console.log(data)
     })
 }
 
 function sendVote(postId, userId, vote) { 
     fetch("http://127.0.0.1:8000/reddit/votes/", {
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken")
-        },
         method: "POST",
         credentials: "include",
+        headers: {
+            Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")
+        },
         body: JSON.stringify({ post: postId, user: userId, vote: vote })
       })
-    .then(res => res.json())
+    .then(res => {
+        console.log(res)
+    })
     .then(data => {
         console.log(data)
     })
@@ -95,17 +105,44 @@ function sendVote(postId, userId, vote) {
 
 function fetchPosts() {
     fetch("http://127.0.0.1:8000/reddit/posts", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCookie("csrftoken")
-        },
         credentials: "include",
+        headers: {
+            Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")
+        }
       })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-        })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+     })
+}
+
+
+function createPost(e) {
+    e.preventDefault();
+    const form = document.querySelector(".post-form");
+    const title = form.querySelector("input[name='title']").value; 
+    const text = form.querySelector("textarea").value;
+    const author = form.querySelector("input[name='user_id']").value;
+
+    const postList = document.querySelector("#posts")
+
+    fetch("http://127.0.0.1:8000/reddit/posts/", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")
+        },
+        body: JSON.stringify({ title, text, author })
+    })
+    .then(res => res.json())
+    .then(data => {
+     
+        console.log(data)
+    })
 }
 
 fetchPosts()

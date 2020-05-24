@@ -8,12 +8,18 @@
 <div>
     <h2>Welcome, {{user.username}}.</h2>
     <p>This is a history of your posts.</p>
-    <div>
-        <h3>Posts</h3>
+    <h3>Posts</h3>
+    <div class="profile-posts">
         {% if posts.count %}
             {% for post in posts %}
-                <h3>{{post.title}}</h3>
-                <p>{{post.text}}</p>
+                <div class="profile-post">
+                    <a href={% url 'reddit_app:single_post' post.id %}>
+                        <h3>{{post.title}}</h3>
+                        <span>{{post.date_posted}}</span>
+                        <span>Score: {{post.votes}}</span>
+                        <p>{{post.text}}</p>
+                    </a>
+                </div>
             {% endfor %}
         {% else %}
             <p>You do not have any posts yet.</p>

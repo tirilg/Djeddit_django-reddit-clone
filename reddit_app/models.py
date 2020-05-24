@@ -13,6 +13,9 @@ class Post(models.Model):
     def __str__(self):
         return f"{self.title} - {self.author}"
 
+    def date_posted(self):
+        return self.created_at.strftime('%B %d %Y')
+
 class Comment(models.Model):
     text = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -22,8 +25,11 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.author} - {self.text}"
 
+    def date_commented(self):
+        return self.created_at.strftime('%B %d %Y')
+
 class Vote(models.Model):
-    vote = models.BooleanField(null=True)
+    vote = models.BooleanField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

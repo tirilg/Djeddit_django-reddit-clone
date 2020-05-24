@@ -38,6 +38,8 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
 
     # Django Apps
     'django.contrib.admin',
@@ -121,6 +123,14 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+REST_FRAMEWORK = {
+'DEFAULT_PERMISSION_CLASSES': (
+    'rest_framework.permissions.IsAuthenticated',
+)
+}
+
 
 LOGIN_REDIRECT_URL = '/user/'
 LOGIN_URL = '/user/login'

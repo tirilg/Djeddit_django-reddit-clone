@@ -2,23 +2,33 @@
 
 {% block content %}
 
-<div class="post-{{post.id}}">
-    <h2>{{post.title}}</h2>
-    <span>Posted by: {{post.author}}</span>
-    <p>{{post.text}}</p>
-    <p class="upvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&uarr;</p>
-    <p class="votes">{{post.votes}}</p>
-    <p class="downvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&darr;</p>
+<div class="post-container single-post post-{{post.id}}">
+    <div>
+        <p class="upvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&uarr;</p>
+        <p class="votes">{{post.votes}}</p>
+        <p class="downvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&darr;</p>
+    </div>
+    <div>
+        <h1>{{post.title}}</h1>
+        <div class="post-info">
+            <span>Posted by: {{post.author}}</span>
+            <p>{{post.date_posted}}</p>
+        </div>
+        <p>{{post.text}}</p>
+    </div>
     {% comment %}    <a href="{% url "reddit_app:upvote" post.id %}">&uarr;</a>
     <p>{{post.votes}}</p>
     <a href="{% url "reddit_app:downvote" post.id %}">&darr;</a> {% endcomment %}
 </div>
 
 <div id="comments">
-    <h2>Comments</h2>
+    <h2>Comments ({{comments.count}})</h2>
     {% if comments.count %}
         {% for comment in comments %}
-            <h3>{{comment.author}}: {{comment.text}}</h3>
+            <div class="comment">
+                <span>{{comment.author}} - {{comment.date_commented}}</span>
+                <p>{{comment.text}}</p>
+            </div>
         {% endfor %}
     {% else %}
         <p>Be the first to comment!</p>

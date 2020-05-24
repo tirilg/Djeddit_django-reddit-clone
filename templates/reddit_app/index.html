@@ -3,39 +3,48 @@
 {% block title %} Home {% endblock title %}
 
 {% block content %}
-<h1>Djeddit</h1>
-
 {% if user.username %}
-    <p>Welcome, {{user.username}}</p>
+    <h1>Welcome, {{user.username}}.</h1>
 {% endif %}
 
 {% if request.user.is_authenticated %}
 <div>
     <h2>Create a new post</h2>
-    <form method="POST">
-        {% csrf_token %}
-        <input type="text" name="title" placeholder="title">
-        <textarea name="text" placeholder="write your post"></textarea>
-        <button>Create post</button>
-    </form>
+    <div class="post-form-container">
+        <form class="post-form" method="POST">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="title">
+            <textarea name="text" placeholder="write your post"></textarea>
+            <input type="hidden" name="user_id" value="{{ user.id }}"> 
+            <button id="create-post">Create post</button>
+        </form>
+    </div>
     {% if error %} <p>{{error}}</p> {% endif %}
 </div>
 {% endif %}
 
+<h2>Posts</h2>
 <div id="posts">
-    <h2>Posts</h2>
     {% if posts.count %}
         {% for post in posts %}
-            <div class="post-{{post.id}}" style="border: 1px solid black; margin-bottom: 10px;">
-                <a href={% url 'reddit_app:single_post' post.id %}>
-                    <h3>{{post.author}}: {{post.title}}</h3>
-                    <p>{{post.text}}</p>
-                </a>
-                {% comment %} <a class="upvote post-vote" data-postid="{{ post.id }}" href="{% url "reddit_app:upvote" post.id %}">&uarr;</a> {% endcomment %}
-                <p class="upvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&uarr;</p>
-                <p class="votes">{{post.votes}}</p>
-                <p class="downvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&darr;</p>
-                {% comment %} <a class="downvote post-vote" href="{% url "reddit_app:downvote" post.id %}">&darr;</a> {% endcomment %}
+            <div class="post-container post-{{post.id}}" style="border: 1px solid black; margin-bottom: 10px;">
+                <div>
+                    {% comment %} <a class="upvote post-vote" data-postid="{{ post.id }}" href="{% url "reddit_app:upvote" post.id %}">&uarr;</a> {% endcomment %}
+                    <p class="upvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&uarr;</p>
+                    <p class="votes">{{post.votes}}</p>
+                    <p class="downvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&darr;</p>
+                    {% comment %} <a class="downvote post-vote" href="{% url "reddit_app:downvote" post.id %}">&darr;</a> {% endcomment %}
+                </div>
+                <div class="post">
+                    <a href={% url 'reddit_app:single_post' post.id %}>
+                        <h3>{{post.title}}</h3>
+                        <div class="post-info">
+                            <span>Posted by: {{post.author}}</span>
+                            <p>{{post.date_posted}}</p>
+                        </div>
+                        <p>{{post.text}}</p>
+                    </a>
+                </div>
             </div>
         {% endfor %}
     {% else %}

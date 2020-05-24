@@ -1,0 +1,118 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+main {
+    padding-left: 30px;
+    padding-top: 20px;
+}
+
+nav {
+    background: gray;
+}
+nav li {
+    list-style-type: none;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    padding: 0px 30px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+h2 {
+    padding: 20px 0px;
+}
+
+.post-form-container {
+    width: 500px;
+    background: gray;
+    padding: 20px;
+    border-radius: 10px;
+}
+.post-form {
+    display: grid;
+    grid-gap: 10px;
+    
+}
+
+.post-form input, .post-form textarea {
+    font-size: 16px;
+}
+
+.post-container a {
+    color: black;
+}
+
+.post-container {
+    display: grid;
+    grid-template-columns: .1fr 1fr;
+    width: 800px;
+}
+
+.post-container div:nth-child(1) {
+    justify-self: center;
+    align-self: center;
+}
+
+.post {
+    padding: 10px;
+}
+
+.profile-posts {
+    display: grid;
+    row-gap: 10px;
+}
+
+.profile-post {
+    border: 1px solid black;
+    width: 500px;
+    padding: 10px;
+}
+
+.profile-post span {
+    color: gray;
+}
+
+.profile-post p {
+    padding-top: 10px;
+}
+
+.profile-post a {
+    color: black;
+}
+
+.post-info {
+    margin-bottom: 10px;
+}
+
+.post-info {
+    color: gray;
+}
+
+.post-container h3 {
+    margin-bottom: 5px;
+}
+
+.single-post {
+    border: 1px solid black;
+}
+
+#comments span {
+    font-weight: bold;
+    color: gray;
+}
+
+.comment {
+    padding-bottom: 10px;
+}

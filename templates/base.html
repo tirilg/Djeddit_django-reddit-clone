@@ -4,11 +4,15 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %} <!--- title inserted from other template  --> {% endblock title %} </title>
+         {% load static %} <link rel="stylesheet" href="{% static "global/css/styles.css" %}" />
     </head>
     <body>
         <header>
             <nav>
                 <ul>
+                    <li>
+                        <h3>Djeddit</h3>
+                    </li>
                     <li>
                         <a href="{% url 'reddit_app:index' %}">Home</a>
                     </li>
