@@ -1,0 +1,1 @@
+default_app_config = 'reddit_app.apps.RedditAppConfig'

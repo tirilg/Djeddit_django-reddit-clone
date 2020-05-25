@@ -16,10 +16,17 @@ def index(request):
 
         post.save() """
 
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-created_at')
     context = {"posts": posts}
     
     return render(request, "reddit_app/index.html", context)
+
+
+def trending(request):
+    posts = Post.objects.all().order_by('-votes')
+    context = {"posts": posts}
+    
+    return render(request, "reddit_app/trending.html", context)
 
 @login_required
 def profile(request):

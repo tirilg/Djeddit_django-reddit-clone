@@ -42,7 +42,6 @@ function handleVote() {
             this.classList.add("clicked")
             clicked = true;
         }
-        clicked = true;
     } else {
         vote = false;
         if (this.classList.contains("clicked")) {
@@ -91,7 +90,9 @@ function updateVotes(postId, vote, votes, clicked) {
         if(res.ok) {
             const voteCount = document.querySelector(`.post-${postId} .votes`)
             const currentVotes = Number(voteCount.textContent)
-            voteCount.textContent = vote ? currentVotes + 1 : currentVotes - 1;
+            if(clicked) {
+                voteCount.textContent = vote ? currentVotes + 1 : currentVotes - 1;
+            }
         }
     })
     .then(data => {

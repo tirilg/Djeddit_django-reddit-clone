@@ -6,6 +6,7 @@ app_name = 'reddit_app'
 
 urlpatterns = [
     path("", views.index, name="index"), 
+    path("trending/", views.trending, name="trending"), 
     path("profile/", views.profile, name="profile"), 
     path("post/<int:post_id>", views.single_post, name="single_post"), 
     path("post/<int:post_id>/comment", views.comment, name="comment"), 
