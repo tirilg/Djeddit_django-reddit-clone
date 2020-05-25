@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %} Notifications {% endblock title %}
+
+{% block content %}
+    <h1>Notifications</h1>
+    <form method="POST" action="{% url 'reddit_app:notifications' %}">
+        {% csrf_token %}
+        <button>Mark all as read</button>
+    </form>
+    {% if notifications.count %}
+        <div class="notifications">
+        <h2>Unread notifications</h2>
+            {% for notification in notifications %}
+                    <div class="notification">
+                        <a href="{% url 'reddit_app:single_post' notification.post_id %}">
+                            <span>{{notification.date_sent}}</span>
+                            <p>{{notification.sender}} has left a comment on your post "{{notification.post.title}}"</p>
+                        </a>
+                    </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h2>Unread notifications</h2>
+        <p>No new notifications</p>
+    {% endif %}
+    {% if read_notifications.count %}
+        <div class="notifications">
+        <h2>Read notifications</h2>
+            {% for read_notification in read_notifications %}
+                    <div class="notification">
+                        <a href="{% url 'reddit_app:single_post' read_notification.post_id %}">
+                            <span>{{read_notification.date_sent}}</span>
+                            <p>{{read_notification.sender}} has left a comment on your post "{{read_notification.post.title}}"</p>
+                        </a>
+                    </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock content %}

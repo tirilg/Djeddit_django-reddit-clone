@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect, reverse
 from django.contrib.auth.decorators import login_required
-from . models import Post, Comment, Vote
+from . models import Post, Comment, Vote, Notification
 
 # Create your views here.
 
@@ -25,7 +25,7 @@ def index(request):
 def trending(request):
     posts = Post.objects.all().order_by('-votes')
     context = {"posts": posts}
-    
+
     return render(request, "reddit_app/trending.html", context)
 
 @login_required
@@ -56,11 +56,25 @@ def comment(request, post_id):
 def update_post(request):
     pass
 
+
 @login_required
 def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     post.delete()
     return HttpResponseRedirect(reverse('reddit_app:profile'))
+
+
+@login_required
+def notifications(request):
+    user = request.user
+    notifications = Notification.objects.filter(reciever=user, read=False)
+    read_notifications = Notification.objects.filter(reciever=user, read=True)
+
+    if request.method == "POST":
+        notifications.update(read=True)
+ 
+    context = {"notifications": notifications, "read_notifications": read_notifications}
+    return render(request, "reddit_app/notifications.html", context)
 
 @login_required
 def upvote(request, post_id):

@@ -143,3 +143,16 @@ h2 {
 .post-nav a {
     color: black;
 }
+
+.notifications {
+    display:grid;
+    row-gap: 10px;
+    width: 500px;
+}
+.notification a {
+    color:black;
+}
+
+.notification {
+    border: 1px solid black;
+}

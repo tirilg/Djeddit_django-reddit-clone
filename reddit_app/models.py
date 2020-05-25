@@ -40,9 +40,13 @@ class Notification(models.Model):
     reciever = models.ForeignKey(User, related_name='notifications', on_delete=models.CASCADE)
     sender = models.ForeignKey(User, related_name='sent_notifications', on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.post} - {self.sender}"
+
+    def date_sent(self):
+        return self.created_at.strftime('%B %d %Y')
 
     
