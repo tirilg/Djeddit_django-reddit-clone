@@ -15,8 +15,8 @@
         <input type="password" name="new_password_confirm" placeholder="Confirm New Password">
         <button>Update password</button>
     </form>
-    {% if message %}
-        <p>{{message}}</p>
+    {% if pass_message %}
+        <p>{{pass_message}}</p>
     {% endif %}
 </div>
 
@@ -28,6 +28,9 @@
         <input type="text" name="confirm_deletion" placeholder="type DELETE">
         <button>Delete user</button>
     </form>
+    {% if del_message %}
+        <p>{{del_message}}</p>
+    {% endif %}
 </div>
 
 {% if error %}

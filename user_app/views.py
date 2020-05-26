@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from reddit_app.models import Post
+from .models import PasswordReset
 
 ### Sign up 
 def signup(request):
@@ -71,16 +72,24 @@ def settings(request):
 ## delete 
 @login_required
 def delete(request):
+    context = {}
+
     if request.method == "POST":
-        if request.POST['confirm_deletion'] == "DELETE":
-            user = authenticate(request, username=request.user.username, password=request.POST['password'])
-            if user:
-                print(f"deleting user {user}")
-                user.delete()
-                return HttpResponseRedirect(reverse('reddit_app:index'))
-            else:
-                print("deletion failed")
-    return render(request, 'user_app/settings.html')
+        password = request.POST['password']
+        if request.user.check_password(password):
+            if request.POST['confirm_deletion'] == "DELETE":
+                if user:
+                    print(f"deleting user {user}")
+                    user.delete()
+                    return HttpResponseRedirect(reverse('reddit_app:index'))
+                else:
+                    context = {"del_message": "Deletion failed"}
+            else: 
+                context = {"del_message": "you need to write DELETE"}
+        else: 
+            context = {"del_message": "wrong password"}
+
+    return render(request, 'user_app/settings.html', context)
 
 @login_required
 def update_password(request):
@@ -96,15 +105,67 @@ def update_password(request):
                 user = get_object_or_404(User, username=request.user.username)
                 user.set_password(new_password)
                 user.save()
-                context = {"message": "Password changed"}
+                context = {"pass_message": "Password changed"}
 
                 return HttpResponseRedirect(reverse('user_app:login'))
             else:
-                context = {"message": "Passwords do not match"}
+                context = {"pass_message": "Passwords do not match"}
         else:
-            context = {"message": "Wrong password"}
+            context = {"pass_message": "Wrong password"}
 
     return render(request, 'user_app/settings.html', context)
 
 
+def request_reset_password(request):
+    context = {}
+    if request.method == 'POST':
+        email = request.POST['email']
+        is_email_valid = User.objects.filter(email=email).exists()
+    
+        if is_email_valid:
+            password_reset_request = PasswordReset()
+            password_reset_request.email = email
+            password_reset_request.save()
 
+            """ django_rq.enqueue(new_password_req_email, {
+                'token': new_request.token,
+                'email': new_request.email,
+            }) """
+
+            return HttpResponseRedirect(reverse('user_app:reset_password'))
+
+        else:
+            context = {'message': 'This email does not exist in the database'}
+    
+    return render(request, 'user_app/request-reset-password.html', context)
+
+def reset_password(request):
+    context = {}
+
+    if request.method == 'POST':
+        token = request.POST['password-reset-token']
+        email = request.POST['password-reset-email']
+        password = request.POST['password-reset-password']
+        password_confirm = request.POST['password-reset-password-confirm']
+
+        if password == password_confirm: 
+            is_token_valid = PasswordReset.objects.filter(token=token, active=True).exists()
+            is_user_valid = User.objects.filter(email=email).exists()
+
+            if is_token_valid and is_user_valid:
+                token = PasswordReset.objects.get(token=token)
+                token.active = False
+                token.save()
+
+                user = User.objects.get(email=email)
+                user.set_password(password)
+                user.save()
+
+                context = { 'message': 'your password has been changed' }
+
+            else:
+                context = { 'message': 'token or email is invalid' }
+        else:
+            context = { 'message': 'passwords do not match' }
+
+    return render(request, 'user_app/reset-password.html', context)
