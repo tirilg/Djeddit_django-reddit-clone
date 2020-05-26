@@ -8,13 +8,16 @@
 
 <h3 class="settings">Update password</h3>
 <div class="post-form-container update-password">
-    <form class="post-form" method="POST" action="">
+    <form class="post-form" method="POST" action="{% url 'user_app:update_password' %}">
         {% csrf_token %}
         <input type="password" name="old_password" placeholder="Old Password">
         <input type="password" name="new_password" placeholder="New Password">
         <input type="password" name="new_password_confirm" placeholder="Confirm New Password">
         <button>Update password</button>
     </form>
+    {% if message %}
+        <p>{{message}}</p>
+    {% endif %}
 </div>
 
 <h3 class="settings">Delete user</h3>

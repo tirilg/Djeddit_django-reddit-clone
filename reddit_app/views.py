@@ -28,6 +28,13 @@ def trending(request):
 
     return render(request, "reddit_app/trending.html", context)
 
+def single_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    comment = Comment()
+    comments = Comment.objects.filter(post=post)
+    context = {"post": post, "comments": comments}
+    return render(request, "reddit_app/single_post.html", context)
+
 @login_required
 def profile(request):
     user = request.user
@@ -36,12 +43,6 @@ def profile(request):
 
     return render(request, "reddit_app/profile.html", context)
 
-def single_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    comment = Comment()
-    comments = Comment.objects.filter(post=post)
-    context = {"post": post, "comments": comments}
-    return render(request, "reddit_app/single_post.html", context)
 
 @login_required
 def comment(request, post_id):
@@ -51,10 +52,6 @@ def comment(request, post_id):
 
         Comment.objects.create(text=text, author=author, post_id=post_id)
         return redirect("reddit_app:single_post", post_id=post_id)
-
-@login_required
-def update_post(request):
-    pass
 
 
 @login_required

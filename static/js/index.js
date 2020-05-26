@@ -142,29 +142,42 @@ function createPost(e) {
         },
         body: JSON.stringify({ title, text, author })
     })
-    .then(res => res.json())
+    .then(res => {
+        console.log(res)
+        if(!res.ok) {
+            console.log("something went wrong")
+            return false;
+        } else {
+            return res.json();
+        }
+    })
     .then(data => {
         console.log(data)
+        if (data !== false) {
+            const bluePrint = `<div class="post-container post-${data.id}" style="border: 1px solid black; margin-bottom: 10px;">
+            <div>             
+                <p class="upvote post-vote" data-votes="${data.votes}" data-postid="${data.id}" data-userid="${data.author}">&uarr;</p>
+                <p class="votes">${data.votes}</p>
+                <p class="downvote post-vote" data-votes="${data.votes}" data-postid="${data.id}" data-userid="${data.author}">&darr;</p>
+            </div>
+            <div class="post">
+                <a href={% url 'reddit_app:single_post' post.id %}>
+                    <h3>${data.title}</h3>
+                    <div class="post-info">
+                        <span>Posted by: ${data.author}</span>
+                        <p>${data.created_at}</p>
+                    </div>
+                    <p>${data.text}</p>
+                </a>
+            </div>
+        </div>`
+    
+            postList.insertAdjacentHTML("afterbegin", bluePrint);
+        }
 
-        const bluePrint = `<div class="post-container post-${data.id}" style="border: 1px solid black; margin-bottom: 10px;">
-        <div>             
-            <p class="upvote post-vote" data-votes="${data.votes}" data-postid="${data.id}" data-userid="${data.author}">&uarr;</p>
-            <p class="votes">${data.votes}</p>
-            <p class="downvote post-vote" data-votes="${data.votes}" data-postid="${data.id}" data-userid="${data.author}">&darr;</p>
-        </div>
-        <div class="post">
-            <a href={% url 'reddit_app:single_post' post.id %}>
-                <h3>${data.title}</h3>
-                <div class="post-info">
-                    <span>Posted by: ${data.author}</span>
-                    <p>${data.created_at}</p>
-                </div>
-                <p>${data.text}</p>
-            </a>
-        </div>
-    </div>`
-
-        postList.insertAdjacentHTML("afterbegin",bluePrint);
+    })
+    .catch(err => {
+        console.log(err)
     })
 }
 

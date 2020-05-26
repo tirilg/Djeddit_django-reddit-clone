@@ -84,7 +84,27 @@ def delete(request):
 
 @login_required
 def update_password(request):
-    if request.method == "POST":
-        user = authenticate(request, username=request.user.username, password=request.POST['old_password'])
+    context = {}
 
-    
+    if request.method == "POST":
+        old_password = request.POST['old_password']
+        new_password = request.POST['new_password']
+        new_password_confirm = request.POST['new_password_confirm']
+
+        if request.user.check_password(old_password):
+            if new_password == new_password_confirm:
+                user = get_object_or_404(User, username=request.user.username)
+                user.set_password(new_password)
+                user.save()
+                context = {"message": "Password changed"}
+
+                return HttpResponseRedirect(reverse('user_app:login'))
+            else:
+                context = {"message": "Passwords do not match"}
+        else:
+            context = {"message": "Wrong password"}
+
+    return render(request, 'user_app/settings.html', context)
+
+
+

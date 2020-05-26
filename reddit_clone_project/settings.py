@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     # My middleware
     'reddit_app.middleware.TestMiddleware',
+    'reddit_app.middleware.IPMiddleware',
     
     # Django middleware
     'django.middleware.security.SecurityMiddleware',

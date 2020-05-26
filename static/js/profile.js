@@ -12,7 +12,7 @@ updateBtns.forEach(btn => {
 
 function showUpdateForm() {
     const postId = Number(this.dataset.postid);
-    const form = document.querySelector(`.profile-post-${postId} form`)
+    const form = document.querySelector(`.profile-post-${postId} div.update-post-form`)
     this.style.display = "none";
     form.style.display = "block";
 }
@@ -20,7 +20,7 @@ function showUpdateForm() {
 function updatePost() {
     const postId = Number(this.dataset.postid);
     const post = document.querySelector(`.profile-post-${postId}`)
-    const form = post.querySelector("form");
+    const form = post.querySelector("div.update-post-form");
     const title = form.querySelector("input[name='title']").value; 
     const text = form.querySelector("textarea").value; 
 
@@ -36,7 +36,7 @@ function updatePost() {
       })
     .then(res => {
         if (res.ok) {
-            const specificForm = document.querySelector(`.profile-post-${postId} form`);
+            const specificForm = document.querySelector(`.profile-post-${postId} div.update-post-form`);
             const specificBtn = document.querySelector(`.btn-${postId}`)
             const newTitle = post.querySelector("h3");
             const newText = post.querySelector("p");
