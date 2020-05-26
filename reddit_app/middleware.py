@@ -13,14 +13,9 @@ class TestMiddleware:
         """ if not request.user.is_authenticated:
             print("hi")
             return HttpResponseRedirect("/user/login/") """
-
+        """ 
         if test == 403:
-            return HttpResponseRedirect("/user/login/")
-
-        path = request.path_info
-
-        print("path", path)
-
+            return HttpResponseRedirect("/user/login/") """
 
         """ if test == 403:
             print("unauthorized")
@@ -28,14 +23,9 @@ class TestMiddleware:
         else: 
             return self.get_response(request) """
 
-        if test == 403:
-            return HttpResponseRedirect('login')
-
 
         # Code to be executed for each request/response after
         # the view is called.
-        print("response", response)
-        print("test", test)
         return response
 
 

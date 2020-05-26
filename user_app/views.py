@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from reddit_app.models import Post
 from .models import PasswordReset
+from django.core.mail import send_mail
+from django.conf import settings as conf_settings  # import email sender address
 
 ### Sign up 
 def signup(request):
@@ -127,12 +129,35 @@ def request_reset_password(request):
             password_reset_request.email = email
             password_reset_request.save()
 
+
+            reset_url = request.build_absolute_uri(reverse(
+                'user_app:reset_password')) + "?token=" + password_reset_request.token
+            alt_body = f"To reset your password, click the following link: {reset_url}"
+            
+            body = ("<html>"
+                        "<head></head>"
+                            "<body>"
+                                f"<h4>To reset your password, click <a href='{reset_url} '>this link</a></h4>"
+                            "</body>"
+                    "</html>"
+                    )
+    
+            send_mail(
+                'Password reset', 
+                alt_body, 
+                conf_settings.EMAIL_HOST_USER, 
+                [conf_settings.EMAIL_HOST_USER,], 
+                html_message=body
+            )
+
             """ django_rq.enqueue(new_password_req_email, {
                 'token': new_request.token,
                 'email': new_request.email,
             }) """
 
-            return HttpResponseRedirect(reverse('user_app:reset_password'))
+            context = {"email_sent": True}
+
+            """ return HttpResponseRedirect(reverse('user_app:reset_password')) """
 
         else:
             context = {'message': 'This email does not exist in the database'}
@@ -141,31 +166,37 @@ def request_reset_password(request):
 
 def reset_password(request):
     context = {}
+    token = request.GET.get('token', None)
+
+    print("token", token)
 
     if request.method == 'POST':
-        token = request.POST['password-reset-token']
-        email = request.POST['password-reset-email']
-        password = request.POST['password-reset-password']
-        password_confirm = request.POST['password-reset-password-confirm']
+        print("token", token)
+        if token:
+            email = request.POST['password-reset-email']
+            password = request.POST['password-reset-password']
+            password_confirm = request.POST['password-reset-password-confirm']
 
-        if password == password_confirm: 
-            is_token_valid = PasswordReset.objects.filter(token=token, active=True).exists()
-            is_user_valid = User.objects.filter(email=email).exists()
+            if password == password_confirm: 
+                is_token_valid = PasswordReset.objects.filter(token=token, active=True).exists()
+                is_user_valid = User.objects.filter(email=email).exists()
 
-            if is_token_valid and is_user_valid:
-                token = PasswordReset.objects.get(token=token)
-                token.active = False
-                token.save()
+                if is_token_valid and is_user_valid:
+                    token = PasswordReset.objects.get(token=token)
+                    token.active = False
+                    token.save()
 
-                user = User.objects.get(email=email)
-                user.set_password(password)
-                user.save()
+                    user = User.objects.get(email=email)
+                    user.set_password(password)
+                    user.save()
 
-                context = { 'message': 'your password has been changed' }
+                    context = { 'message': 'your password has been changed' }
 
+                else:
+                    context = { 'message': 'token or email is invalid' }
             else:
-                context = { 'message': 'token or email is invalid' }
+                context = { 'message': 'passwords do not match' }
         else:
-            context = { 'message': 'passwords do not match' }
+            context = {'message': 'no token provided'}
 
     return render(request, 'user_app/reset-password.html', context)

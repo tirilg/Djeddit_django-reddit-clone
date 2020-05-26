@@ -7,4 +7,4 @@ class PasswordReset(models.Model):
     active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'Active: {self.active} // {self.token}'
+        return f"Active: {self.active} // Token: {self.token}"

@@ -1,3 +1,4 @@
+""" import django_rq """
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -11,7 +12,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.title} - {self.author}"
+        return f"Author: {self.author} // Title: {self.title}"
+
 
     def date_posted(self):
         return self.created_at.strftime('%B %d %Y')
@@ -21,10 +23,11 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return f"{self.author} - {self.post} : {self.text}"
 
+
+    def __str__(self):
+        return f"User: {self.author} // Commented: {self.text} // On post: {self.post}"
+    
     def date_commented(self):
         return self.created_at.strftime('%B %d %Y')
 
@@ -44,7 +47,8 @@ class Notification(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.post} - {self.sender}"
+        return f"Sender: {self.sender} // Reciever: {self.reciever} // On post: {self.post}"
+    
 
     def date_sent(self):
         return self.created_at.strftime('%B %d %Y')
