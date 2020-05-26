@@ -51,6 +51,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # My middleware
+    'reddit_app.middleware.TestMiddleware',
+    
+    # Django middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

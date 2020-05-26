@@ -6,8 +6,9 @@ from .models import Comment, Notification
 def create_notification(sender, instance, created, **kwargs):
     print("**** signal recieved")
     if created:
-        notification = Notification()
-        notification.reciever_id = instance.post.author.id
-        notification.post_id = instance.post.id
-        notification.sender_id = instance.author.id
-        notification.save()
+        if not instance.post.author.id == instance.author.id:
+            notification = Notification()
+            notification.reciever_id = instance.post.author.id
+            notification.post_id = instance.post.id
+            notification.sender_id = instance.author.id
+            notification.save()

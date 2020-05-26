@@ -1,19 +1,4 @@
 
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-        var cookies = document.cookie.split(";");
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === name + "=") {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
 // Vote buttons
 const voteArrows = document.querySelectorAll(".post-vote");
 voteArrows.forEach(arrow => {
@@ -53,7 +38,6 @@ function handleVote() {
         }
 
     }
-
     sendVote(postId, userId, vote)
     updateVotes(postId, vote, votes, clicked)
 }
@@ -72,6 +56,7 @@ function getVotes() {
         console.log(data)
     })
 }
+
 
 function updateVotes(postId, vote, votes, clicked) {
     console.log(clicked)
@@ -159,8 +144,27 @@ function createPost(e) {
     })
     .then(res => res.json())
     .then(data => {
-     
         console.log(data)
+
+        const bluePrint = `<div class="post-container post-${data.id}" style="border: 1px solid black; margin-bottom: 10px;">
+        <div>             
+            <p class="upvote post-vote" data-votes="${data.votes}" data-postid="${data.id}" data-userid="${data.author}">&uarr;</p>
+            <p class="votes">${data.votes}</p>
+            <p class="downvote post-vote" data-votes="${data.votes}" data-postid="${data.id}" data-userid="${data.author}">&darr;</p>
+        </div>
+        <div class="post">
+            <a href={% url 'reddit_app:single_post' post.id %}>
+                <h3>${data.title}</h3>
+                <div class="post-info">
+                    <span>Posted by: ${data.author}</span>
+                    <p>${data.created_at}</p>
+                </div>
+                <p>${data.text}</p>
+            </a>
+        </div>
+    </div>`
+
+        postList.insertAdjacentHTML("afterbegin",bluePrint);
     })
 }
 

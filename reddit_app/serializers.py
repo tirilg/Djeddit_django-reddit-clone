@@ -4,8 +4,9 @@ from .models import Vote, Post
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('title', 'author', 'text', 'votes', 'created_at')
+        fields = ('id', 'title', 'author', 'text', 'votes', 'created_at')
         model = Post
+        """ depth = 1 """
 
 class VoteSerializer(serializers.ModelSerializer):
     class Meta:

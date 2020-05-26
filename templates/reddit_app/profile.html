@@ -19,7 +19,13 @@
                         <span>Score: {{post.votes}}</span>
                         <p>{{post.text}}</p>
                     </a>
-                        <a href="{% url "reddit_app:delete_post" post.id %}"><button>Delete post</button></a>
+                    <form class="update-post-form" method="POST"> 
+                        <input type="text" name="title" value="{{post.title}}">
+                        <textarea name="text">{{post.text}}</textarea>
+                        <input type="hidden" name="post_id" value="{{ post.id }}"> 
+                        <button data-postid={{post.id}} type="button" class="update-post">Update post</button>
+                    </form>
+                    <a href="{% url "reddit_app:delete_post" post.id %}"><button>Delete post</button></a>
                 </div>
             {% endfor %}
         {% else %}
@@ -28,4 +34,8 @@
     </div>
 
 {% if error_message %} <p>{{error_message}}</p> {% endif %}
+
+{% load static %}
+<script src="{% static 'global/js/cookie.js' %}"></script>
+<script src="{% static "global/js/profile.js" %}"></script>
 {% endblock content %}
