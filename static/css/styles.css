@@ -25,9 +25,12 @@ nav ul {
     padding: 0px 30px;
 }
 
+nav a {
+    color: white
+}
+
 a {
     text-decoration: none;
-    color: white;
 }
 
 h2 {
@@ -155,6 +158,11 @@ h2 {
 
 .notification {
     border: 1px solid black;
+    padding: 10px;
+}
+
+.notification span {
+    color: gray;
 }
 
 .update-post-form {

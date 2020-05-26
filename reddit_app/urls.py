@@ -17,5 +17,4 @@ urlpatterns = [
     path('posts/', PostView.as_view()),
     path('posts/<int:pk>', PostDetail.as_view()),
     path('votes/', VoteView.as_view()),
-    path('rest-auth/', include('rest_auth.urls')),
 ]

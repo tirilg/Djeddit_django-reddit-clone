@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     # My middleware
-    'reddit_app.middleware.TestMiddleware',
+    'reddit_app.middleware.AuthMiddleware',
     'reddit_app.middleware.IPMiddleware',
     
     # Django middleware
@@ -148,6 +148,14 @@ REST_FRAMEWORK = {
 LOGIN_REDIRECT_URL = '/user/'
 LOGIN_URL = '/user/login'
 LOGOUT_REDIRECT_URL = '/'
+
+AUTH_URLS = (
+    r'^reddit/votes/$',
+    r'^reddit/votes/$',
+    r'^reddit/profile/$',
+    r'^reddit/notifications/$',
+) 
+
 
 
 # Static files (CSS, JavaScript, Images)

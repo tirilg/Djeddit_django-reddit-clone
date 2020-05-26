@@ -59,7 +59,6 @@ function getVotes() {
 
 
 function updateVotes(postId, vote, votes, clicked) {
-    console.log(clicked)
     fetch("http://127.0.0.1:8000/reddit/posts/" + postId, {
         method: "PATCH",
         credentials: "include",
@@ -80,14 +79,12 @@ function updateVotes(postId, vote, votes, clicked) {
             }
         }
     })
-    .then(data => {
-        console.log(data)
-    })
 }
 
 function sendVote(postId, userId, vote) { 
     fetch("http://127.0.0.1:8000/reddit/votes/", {
         method: "POST",
+        redirect: 'follow',
         credentials: "include",
         headers: {
             Accept: "application/json",
@@ -97,7 +94,9 @@ function sendVote(postId, userId, vote) {
         body: JSON.stringify({ post: postId, user: userId, vote: vote })
       })
     .then(res => {
-        console.log(res)
+        if (res.redirected) {
+            window.location.href = res.url;
+        }
     })
     .then(data => {
         console.log(data)

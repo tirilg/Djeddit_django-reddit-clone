@@ -1,4 +1,3 @@
-""" import django_rq """
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -48,7 +47,6 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Sender: {self.sender} // Reciever: {self.reciever} // On post: {self.post}"
-    
 
     def date_sent(self):
         return self.created_at.strftime('%B %d %Y')

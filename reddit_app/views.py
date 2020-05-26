@@ -35,7 +35,6 @@ def single_post(request, post_id):
     context = {"post": post, "comments": comments}
     return render(request, "reddit_app/single_post.html", context)
 
-@login_required
 def profile(request):
     user = request.user
     posts = Post.objects.filter(author=user)
@@ -61,7 +60,7 @@ def delete_post(request, post_id):
     return HttpResponseRedirect(reverse('reddit_app:profile'))
 
 
-@login_required
+
 def notifications(request):
     user = request.user
     notifications = Notification.objects.filter(reciever=user, read=False)

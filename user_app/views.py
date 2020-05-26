@@ -150,14 +150,7 @@ def request_reset_password(request):
                 html_message=body
             )
 
-            """ django_rq.enqueue(new_password_req_email, {
-                'token': new_request.token,
-                'email': new_request.email,
-            }) """
-
             context = {"email_sent": True}
-
-            """ return HttpResponseRedirect(reverse('user_app:reset_password')) """
 
         else:
             context = {'message': 'This email does not exist in the database'}
@@ -168,10 +161,7 @@ def reset_password(request):
     context = {}
     token = request.GET.get('token', None)
 
-    print("token", token)
-
     if request.method == 'POST':
-        print("token", token)
         if token:
             email = request.POST['password-reset-email']
             password = request.POST['password-reset-password']
@@ -190,7 +180,7 @@ def reset_password(request):
                     user.set_password(password)
                     user.save()
 
-                    context = { 'message': 'your password has been changed' }
+                    return redirect('user_app:login')
 
                 else:
                     context = { 'message': 'token or email is invalid' }
