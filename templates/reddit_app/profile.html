@@ -12,20 +12,20 @@
     <div class="profile-posts">
         {% if posts.count %}
             {% for post in posts %}
-                <div class="profile-post">
+                <div class="profile-post profile-post-{{post.id}}">
                     <a href={% url 'reddit_app:single_post' post.id %}>
                         <h3>{{post.title}}</h3>
                         <span>{{post.date_posted}}</span>
                         <span>Score: {{post.votes}}</span>
                         <p>{{post.text}}</p>
+                        <a href="{% url "reddit_app:delete_post" post.id %}"><button>Delete post</button></a>
+                        <button data-postid={{post.id}} class="show-update btn-{{post.id}}">Update post</button>
                     </a>
-                    <form class="update-post-form" method="POST"> 
+                    <form class="update-post-form post-{{post.id}}" method="POST"> 
                         <input type="text" name="title" value="{{post.title}}">
                         <textarea name="text">{{post.text}}</textarea>
-                        <input type="hidden" name="post_id" value="{{ post.id }}"> 
                         <button data-postid={{post.id}} type="button" class="update-post">Update post</button>
                     </form>
-                    <a href="{% url "reddit_app:delete_post" post.id %}"><button>Delete post</button></a>
                 </div>
             {% endfor %}
         {% else %}

@@ -156,3 +156,7 @@ h2 {
 .notification {
     border: 1px solid black;
 }
+
+.update-post-form {
+    display: none;
+}
