@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # My apps 
-    'personal',
     'reddit_app',
     'user_app',
 
@@ -40,6 +39,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
+    'django_rq',
+    'channels',
 
     # Django Apps
     'django.contrib.admin',
@@ -115,6 +116,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+RQ_QUEUES = {
+   'default': {
+      'HOST': 'localhost',
+      'PORT': '6379',
+      'DB': 0,
+      'DEFAULT_TIMEOUT': 360,
+   }
+}
+
 ## Email setup
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -139,9 +150,9 @@ USE_TZ = True
 
 
 REST_FRAMEWORK = {
-'DEFAULT_PERMISSION_CLASSES': (
-    'rest_framework.permissions.IsAuthenticated',
-)
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
 }
 
 
@@ -166,3 +177,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     ("global", os.path.join(BASE_DIR, "static/")),
 ]
+
+
+## Channels 
+ASGI_APPLICATION = "reddit_clone_project.routing.application"

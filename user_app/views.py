@@ -1,3 +1,4 @@
+import django_rq
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as dj_login, logout as dj_logout
 from django.contrib.auth.models import User
@@ -141,7 +142,7 @@ def request_reset_password(request):
                             "</body>"
                     "</html>"
                     )
-    
+        
             send_mail(
                 'Password reset', 
                 alt_body, 
