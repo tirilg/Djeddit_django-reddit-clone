@@ -8,7 +8,6 @@ from reddit_app.models import Post
 from .models import PasswordReset
 from django.core.mail import send_mail
 from django.conf import settings as conf_settings  # import email sender address
-
 from . messaging import password_req_email;
 
 ### Sign up 
@@ -131,9 +130,6 @@ def request_reset_password(request):
             password_reset_request = PasswordReset()
             password_reset_request.email = email
             password_reset_request.save()
-
-            reset_url = request.build_absolute_uri(reverse(
-                'user_app:reset_password')) + "?token=" + password_reset_request.token
 
             django_rq.enqueue(password_req_email, {
                 'reset_url': request.build_absolute_uri(reverse('user_app:reset_password')) + "?token=" + password_reset_request.token,

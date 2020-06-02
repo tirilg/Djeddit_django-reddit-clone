@@ -48,7 +48,6 @@ def comment(request, post_id):
     if request.method == "POST":
         text = request.POST["text"]
         author = request.user
-
         Comment.objects.create(text=text, author=author, post_id=post_id)
         return redirect("reddit_app:single_post", post_id=post_id)
 

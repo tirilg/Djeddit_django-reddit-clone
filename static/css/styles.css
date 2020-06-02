@@ -180,3 +180,15 @@ h2 {
     margin-top: 10px;
     width: 300px;
 }
+
+.notification-popup {
+    background: #5ca2ef;
+    width: 200px;
+    color: white;
+    float: right;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity .3s ease;
+}

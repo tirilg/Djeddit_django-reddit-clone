@@ -24,7 +24,7 @@ function updatePost() {
     const title = form.querySelector("input[name='title']").value; 
     const text = form.querySelector("textarea").value; 
 
-    fetch("http://127.0.0.1:8000/reddit/posts/" + postId, {
+    fetch("http://localhost:8000/reddit/posts/" + postId, {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -35,6 +35,7 @@ function updatePost() {
         body: JSON.stringify({ title, text })
       })
     .then(res => {
+        console.log(res);
         if (res.ok) {
             const specificForm = document.querySelector(`.profile-post-${postId} div.update-post-form`);
             const specificBtn = document.querySelector(`.btn-${postId}`)

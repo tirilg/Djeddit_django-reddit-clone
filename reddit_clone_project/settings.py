@@ -54,7 +54,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     # My middleware
     'reddit_app.middleware.AuthMiddleware',
-    'reddit_app.middleware.IPMiddleware',
     
     # Django middleware
     'django.middleware.security.SecurityMiddleware',
@@ -117,6 +116,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+## Task queues
+
 RQ_QUEUES = {
    'default': {
       'HOST': 'localhost',
@@ -162,7 +163,6 @@ LOGOUT_REDIRECT_URL = '/'
 
 AUTH_URLS = (
     r'^reddit/votes/$',
-    r'^reddit/votes/$',
     r'^reddit/profile/$',
     r'^reddit/notifications/$',
 ) 
@@ -182,12 +182,20 @@ STATICFILES_DIRS = [
 ## Channels 
 ASGI_APPLICATION = "reddit_clone_project.routing.application"
 
-""" CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'asgi_redis.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('localhost', 6379)],
-        },
-        'ROUTING': 'reddit_clone_project.routing.application',
+# Channel layers
+CHANNEL_LAYERS = {
+    "default": {
+        # <- use this ONLY in development, production env. should use redis
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
+}
+
+
+""" CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
 } """

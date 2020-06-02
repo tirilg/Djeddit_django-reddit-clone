@@ -43,7 +43,7 @@ function handleVote() {
 }
 
 function getVotes() {
-    fetch("http://127.0.0.1:8000/reddit/votes", {
+    fetch("http://localhost:8000/reddit/votes", {
         credentials: "include",
         headers: {
             Accept: "application/json",
@@ -59,7 +59,7 @@ function getVotes() {
 
 
 function updateVotes(postId, vote, votes, clicked) {
-    fetch("http://127.0.0.1:8000/reddit/posts/" + postId, {
+    fetch("http://localhost:8000/reddit/posts/" + postId, {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -82,7 +82,7 @@ function updateVotes(postId, vote, votes, clicked) {
 }
 
 function sendVote(postId, userId, vote) { 
-    fetch("http://127.0.0.1:8000/reddit/votes/", {
+    fetch("http://localhost:8000/reddit/votes/", {
         method: "POST",
         redirect: 'follow',
         credentials: "include",
@@ -107,7 +107,7 @@ function sendVote(postId, userId, vote) {
 }
 
 function fetchPosts() {
-    fetch("http://127.0.0.1:8000/reddit/posts", {
+    fetch("http://localhost:8000/reddit/posts", {
         credentials: "include",
         headers: {
             Accept: "application/json",
@@ -128,10 +128,12 @@ function createPost(e) {
     const title = form.querySelector("input[name='title']").value; 
     const text = form.querySelector("textarea").value;
     const author = form.querySelector("input[name='user_id']").value;
+    const authorName = form.querySelector("input[name='username']").value;
 
+    console.log(authorName)
     const postList = document.querySelector("#posts")
 
-    fetch("http://127.0.0.1:8000/reddit/posts/", {
+    fetch("http://localhost:8000/reddit/posts/", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -153,6 +155,11 @@ function createPost(e) {
     .then(data => {
         console.log(data)
         if (data !== false) {
+            const date = new Date().toDateString().split(" ");
+            date.shift();
+            const newDate = date.join(" ");
+            console.log(date);
+            console.log(newDate);
             const bluePrint = `<div class="post-container post-${data.id}" style="border: 1px solid black; margin-bottom: 10px;">
             <div>             
                 <p class="upvote post-vote" data-votes="${data.votes}" data-postid="${data.id}" data-userid="${data.author}">&uarr;</p>
@@ -163,8 +170,8 @@ function createPost(e) {
                 <a href={% url 'reddit_app:single_post' post.id %}>
                     <h3>${data.title}</h3>
                     <div class="post-info">
-                        <span>Posted by: ${data.author}</span>
-                        <p>${data.created_at}</p>
+                        <span>Posted by: ${authorName}</span>
+                        <p>${date}</p>
                     </div>
                     <p>${data.text}</p>
                 </a>

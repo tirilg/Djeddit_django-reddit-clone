@@ -15,7 +15,8 @@
             {% csrf_token %}
             <input type="text" name="title" placeholder="title">
             <textarea name="text" placeholder="write your post"></textarea>
-            <input type="hidden" name="user_id" value="{{ user.id }}"> 
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <input type="hidden" name="username" value="{{ user.username }}">  
             <button id="create-post">Create post</button>
         </form>
     </div>
@@ -62,6 +63,7 @@
 </div>
 
 {% load static %}
+<script src="{% static "global/js/notification.js" %}"></script>
 <script src="{% static "global/js/cookie.js" %}"></script>
 <script src="{% static "global/js/index.js" %}"></script>
 

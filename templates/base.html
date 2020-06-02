@@ -41,6 +41,12 @@
             </nav>
         </header>
         <main>
+            <a href="{% url 'reddit_app:notifications' %}">
+                <div class="notification-popup">     
+                    <h3>Notification</h3>
+                    <p>Hello</p>
+                </div>
+            </a>
             {% block content %}
             <!-- Main content inserted here -->
             {% endblock content %}
