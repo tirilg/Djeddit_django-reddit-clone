@@ -1,16 +1,22 @@
 from django.core.mail import send_mail
 
 ## Email template for user request new password
-def new_password_req_email(message_dict):
-   contents = f"""
-    Forgot your password?
-   No worries! Below is the token you'll need to reset your password.
-   Token: {message_dict['token']}
-   """
+def password_req_email(message_dict):
+   alt_body = f"To reset your password, click the following link: {message_dict['reset_url']}"
+            
+   body = ("<html>"
+               "<head></head>"
+                     "<body>"
+                        f"<h4>To reset your password, click <a href='{message_dict['reset_url']}'>this link</a></h4>"
+                     "</body>"
+            "</html>"
+   )
+
    send_mail(
-      'Djeddit - forgot password',
-      contents,
-      'kea.test.tiril@gmail.com',
-      [message_dict['email']],
+      'Password reset', 
+      alt_body, 
+      'kea.test.tiril@gmail.com', 
+      ['kea.test.tiril@gmail.com'], 
+      html_message=body,
       fail_silently=False
-    )
+   )

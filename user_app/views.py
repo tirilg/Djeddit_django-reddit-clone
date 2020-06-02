@@ -9,6 +9,8 @@ from .models import PasswordReset
 from django.core.mail import send_mail
 from django.conf import settings as conf_settings  # import email sender address
 
+from . messaging import password_req_email;
+
 ### Sign up 
 def signup(request):
     context = {}
@@ -130,26 +132,13 @@ def request_reset_password(request):
             password_reset_request.email = email
             password_reset_request.save()
 
-
             reset_url = request.build_absolute_uri(reverse(
                 'user_app:reset_password')) + "?token=" + password_reset_request.token
-            alt_body = f"To reset your password, click the following link: {reset_url}"
-            
-            body = ("<html>"
-                        "<head></head>"
-                            "<body>"
-                                f"<h4>To reset your password, click <a href='{reset_url} '>this link</a></h4>"
-                            "</body>"
-                    "</html>"
-                    )
-        
-            send_mail(
-                'Password reset', 
-                alt_body, 
-                conf_settings.EMAIL_HOST_USER, 
-                [conf_settings.EMAIL_HOST_USER,], 
-                html_message=body
-            )
+
+            django_rq.enqueue(password_req_email, {
+                'reset_url': request.build_absolute_uri(reverse('user_app:reset_password')) + "?token=" + password_reset_request.token,
+                'email': password_reset_request.email,
+            })
 
             context = {"email_sent": True}
 

@@ -127,7 +127,12 @@ RQ_QUEUES = {
 }
 
 ## Email setup
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'kea.test.tiril@gmail.com'
+EMAIL_HOST_PASSWORD = 'schooltesting1234'
 
 
 # Internationalization
@@ -176,3 +181,13 @@ STATICFILES_DIRS = [
 
 ## Channels 
 ASGI_APPLICATION = "reddit_clone_project.routing.application"
+
+""" CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
+        'ROUTING': 'reddit_clone_project.routing.application',
+    }
+} """
