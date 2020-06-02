@@ -42,21 +42,6 @@ function handleVote() {
     updateVotes(postId, vote, votes, clicked)
 }
 
-function getVotes() {
-    fetch("http://localhost:8000/reddit/votes", {
-        credentials: "include",
-        headers: {
-            Accept: "application/json",
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": getCookie("csrftoken")
-        },
-      })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data)
-    })
-}
-
 
 function updateVotes(postId, vote, votes, clicked) {
     fetch("http://localhost:8000/reddit/posts/" + postId, {
@@ -104,21 +89,6 @@ function sendVote(postId, userId, vote) {
     .catch(err => {
         console.log(err)
     })
-}
-
-function fetchPosts() {
-    fetch("http://localhost:8000/reddit/posts", {
-        credentials: "include",
-        headers: {
-            Accept: "application/json",
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": getCookie("csrftoken")
-        }
-      })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data)
-     })
 }
 
 
@@ -186,6 +156,3 @@ function createPost(e) {
         console.log(err)
     })
 }
-
-fetchPosts()
-getVotes()

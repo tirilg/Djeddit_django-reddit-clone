@@ -38,46 +38,6 @@
         </div>
     {% endif %}
 
-  {% comment %}   <script>
-
-    const wsScheme = window.location.protocol == "https:" ? "wss" : "ws"; // check if https page, if true, use secure websockets transport
-    const wsURL = wsScheme + "://" + location.hostname + (location.port ? ":" + location.port : "") + "/ws/"; // web socket endpoint, same as in routing.py
-
-    var socket = new WebSocket(wsURL + "notifications/") // Creating a new Web Socket Connection
-
-    function displayNotifModalPopup(message) {
-        alert(message);
-    }
-
-    // Socket On receive message Functionality
-    socket.onmessage = function(e){
-        console.log('heyo', e.data)
-        const messageObj = JSON.parse(e.data)
-        console.log(messageObj);
-
-        if(messageObj.type == "Notification"){
-            displayNotifModalPopup(messageObj.message);
-        }
-        // console.log(e.data) // Access the notification data
-        //$("body").append("<h3>"+e.data+"</h3>")
-        // Can write any functionality based on your requirement
-    }
-
-    // Socket Connet Functionality
-    socket.onopen = function(e){
-        console.log('open', e)
-    }
-
-    // Socket Error Functionality
-    socket.onerror = function(e){
-        console.log('error', e)
-    }
-
-    socket.onclose = function(e){
-        console.log('closed', e)
-    }
-
-    </script> {% endcomment %}
-    {% load static %}
-    <script src="{% static "global/js/notification.js" %}"></script>
+{% load static %}
+<script src="{% static "global/js/notification.js" %}"></script>
 {% endblock content %}

@@ -1,6 +1,5 @@
 from django.core.mail import send_mail
 
-## Email template for user request new password
 def password_req_email(message_dict):
    alt_body = f"To reset your password, click the following link: {message_dict['reset_url']}"
             

@@ -1,10 +1,4 @@
-from rest_framework import generics, permissions, status
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import permissions
-
-from .permissions import IsOwner
-
+from rest_framework import generics, permissions
 from .models import Post, Vote
 from .serializers import PostSerializer, VoteSerializer
 

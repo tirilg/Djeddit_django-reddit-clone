@@ -1,10 +1,9 @@
-// Show update form buttons
+
 const showUpdateBtns = document.querySelectorAll(".show-update")
 showUpdateBtns.forEach(btn => {
     btn.addEventListener("click", showUpdateForm)
 })
 
-// Update post buttons
 const updateBtns = document.querySelectorAll(".update-post");
 updateBtns.forEach(btn => {
     btn.addEventListener("click", updatePost)

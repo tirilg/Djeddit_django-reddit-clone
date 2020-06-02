@@ -38,11 +38,9 @@
         {% for post in posts %}
             <div class="post-container post-{{post.id}}" style="border: 1px solid black; margin-bottom: 10px;">
                 <div>
-                    {% comment %} <a class="upvote post-vote" data-postid="{{ post.id }}" href="{% url "reddit_app:upvote" post.id %}">&uarr;</a> {% endcomment %}
                     <p class="upvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&uarr;</p>
                     <p class="votes">{{post.votes}}</p>
                     <p class="downvote post-vote" data-votes="{{post.votes}}" data-postid="{{ post.id }}" data-userid="{{ user.id }}">&darr;</p>
-                    {% comment %} <a class="downvote post-vote" href="{% url "reddit_app:downvote" post.id %}">&darr;</a> {% endcomment %}
                 </div>
                 <div class="post">
                     <a href={% url 'reddit_app:single_post' post.id %}>
@@ -59,14 +57,12 @@
     {% else %}
         <p>There are no posts</p>
     {% endif %}
-
 </div>
 
 {% load static %}
 <script src="{% static "global/js/notification.js" %}"></script>
 <script src="{% static "global/js/cookie.js" %}"></script>
 <script src="{% static "global/js/index.js" %}"></script>
-
 {% endblock content %}
 
 

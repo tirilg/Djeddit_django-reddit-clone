@@ -37,8 +37,6 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
     'django_rq',
     'channels',
 
@@ -70,7 +68,7 @@ ROOT_URLCONF = 'reddit_clone_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "templates")], # Add this 
+        'DIRS': [os.path.join(BASE_DIR, "templates")], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,12 +126,13 @@ RQ_QUEUES = {
 }
 
 ## Email setup
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'kea.test.tiril@gmail.com'
-EMAIL_HOST_PASSWORD = 'schooltesting1234'
+EMAIL_HOST_USER = 'your email'
+EMAIL_HOST_PASSWORD = 'your password'
 
 
 # Internationalization
@@ -182,7 +181,6 @@ STATICFILES_DIRS = [
 ## Channels 
 ASGI_APPLICATION = "reddit_clone_project.routing.application"
 
-# Channel layers
 CHANNEL_LAYERS = {
     "default": {
         # <- use this ONLY in development, production env. should use redis
@@ -190,12 +188,3 @@ CHANNEL_LAYERS = {
     }
 }
 
-
-""" CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("localhost", 6379)],
-        },
-    },
-} """

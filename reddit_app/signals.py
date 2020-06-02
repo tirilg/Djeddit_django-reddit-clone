@@ -14,7 +14,7 @@ def create_notification(sender, instance, created, **kwargs):
             notification.post_id = instance.post.id
             notification.sender_id = instance.author.id
             notification.save()
-
+            
             user_room = f"user-{instance.post.author.id}"
             channel_layer = get_channel_layer()
             async_to_sync(channel_layer.group_send)(

@@ -6,15 +6,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from reddit_app.models import Post
 from .models import PasswordReset
-from django.core.mail import send_mail
-from django.conf import settings as conf_settings  # import email sender address
 from . messaging import password_req_email;
 
-### Sign up 
+
 def signup(request):
     context = {}
 
-    # Redirect the user if they are already logged in
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('reddit_app:index'))
 
@@ -38,32 +35,29 @@ def signup(request):
     return render(request, 'user_app/signup.html', context)
 
 
-### Log in
+
 def login(request):
     context = {}
 
-    # Redirect the user if they are already logged in
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('reddit_app:index'))
 
-    #login request
     if request.method == "POST":
         user = authenticate(request, username=request.POST["username"], password= request.POST["password"])
 
         if user: 
-            #user login success
             dj_login(request, user)
             return HttpResponseRedirect(reverse("reddit_app:index"))
         else: 
-            #user login failed
             context = {"error": "Invalid username or password combination"}
     
     return render(request, "user_app/login.html", context)
 
-## Log out
+@login_required
 def logout(request):
     dj_logout(request)
     return HttpResponseRedirect(reverse('user_app:login'))
+
 
 @login_required
 def settings(request):
@@ -73,7 +67,7 @@ def settings(request):
 
     return render(request, "user_app/settings.html", context)
 
-## delete 
+
 @login_required
 def delete(request):
     context = {}
@@ -142,6 +136,7 @@ def request_reset_password(request):
             context = {'message': 'This email does not exist in the database'}
     
     return render(request, 'user_app/request-reset-password.html', context)
+
 
 def reset_password(request):
     context = {}
