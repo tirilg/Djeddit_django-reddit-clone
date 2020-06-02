@@ -1,11 +1,9 @@
 
-// Vote buttons
 const voteArrows = document.querySelectorAll(".post-vote");
 voteArrows.forEach(arrow => {
     arrow.addEventListener("click", handleVote)
 })
 
-// Create post button
 const createBtn = document.querySelector("#create-post");
 createBtn.addEventListener("click", createPost);
 
@@ -55,7 +53,6 @@ function updateVotes(postId, vote, votes, clicked) {
         body: JSON.stringify({ votes: vote ? votes + 1 : votes - 1 })
       })
     .then(res => {
-        console.log(res)
         if(res.ok) {
             const voteCount = document.querySelector(`.post-${postId} .votes`)
             const currentVotes = Number(voteCount.textContent)
@@ -83,9 +80,6 @@ function sendVote(postId, userId, vote) {
             window.location.href = res.url;
         }
     })
-    .then(data => {
-        console.log(data)
-    })
     .catch(err => {
         console.log(err)
     })
@@ -99,8 +93,6 @@ function createPost(e) {
     const text = form.querySelector("textarea").value;
     const author = form.querySelector("input[name='user_id']").value;
     const authorName = form.querySelector("input[name='username']").value;
-
-    console.log(authorName)
     const postList = document.querySelector("#posts")
 
     fetch("http://localhost:8000/reddit/posts/", {
@@ -114,16 +106,13 @@ function createPost(e) {
         body: JSON.stringify({ title, text, author })
     })
     .then(res => {
-        console.log(res)
         if(!res.ok) {
-            console.log("something went wrong")
             return false;
         } else {
             return res.json();
         }
     })
     .then(data => {
-        console.log(data)
         if (data !== false) {
             const date = new Date().toDateString().split(" ");
             date.shift();

@@ -34,7 +34,6 @@ function updatePost() {
         body: JSON.stringify({ title, text })
       })
     .then(res => {
-        console.log(res);
         if (res.ok) {
             const specificForm = document.querySelector(`.profile-post-${postId} div.update-post-form`);
             const specificBtn = document.querySelector(`.btn-${postId}`)
@@ -46,8 +45,6 @@ function updatePost() {
             specificBtn.textContent = "Updated";
             specificBtn.style.display = "block";
         }
-        console.log(res)
-        console.log(this)
     })
     
 }
