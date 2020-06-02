@@ -128,8 +128,6 @@ function createPost(e) {
             const date = new Date().toDateString().split(" ");
             date.shift();
             const newDate = date.join(" ");
-            console.log(date);
-            console.log(newDate);
             const bluePrint = `<div class="post-container post-${data.id}" style="border: 1px solid black; margin-bottom: 10px;">
             <div>             
                 <p class="upvote post-vote" data-votes="${data.votes}" data-postid="${data.id}" data-userid="${data.author}">&uarr;</p>
@@ -141,7 +139,7 @@ function createPost(e) {
                     <h3>${data.title}</h3>
                     <div class="post-info">
                         <span>Posted by: ${authorName}</span>
-                        <p>${date}</p>
+                        <p>${newDate}</p>
                     </div>
                     <p>${data.text}</p>
                 </a>
